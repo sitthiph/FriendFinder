@@ -1,6 +1,8 @@
 const express = require("express");
 const expressGraphQL = require("express-graphql");
+
 const app = express();
+
 const {
     GraphQLSchema,
     GraphQLObjectType,
@@ -74,5 +76,9 @@ app.use("/graphql", expressGraphQL({
     graphiql: true,
     schema: schema
 }));
-app.listen(5000., () => console.log("server is now running on http://localhost:5000"));
-
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+var PORT = process.env.PORT || 5000;
+require("./app/routing/apiRoutes.js")(app);
+require("./app/routing/htmlRoutes.js")(app);
+app.listen(PORT, () => console.log("server is now running on http://localhost:5000"));
